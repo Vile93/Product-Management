@@ -1,0 +1,28 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: app
+        ports:
+            - 3000:3000
+        networks:
+            - app-network
+    db:
+        image: mongo:4.2.3-bionic
+        container_name: mongo_db
+        ports:
+            - 27017:27017
+        environment:
+            - MONGO_INITDB_DATABASE=product-management
+            - MONGO_INITDB_ROOT_USERNAME=admin
+            - MONGO_INITDB_ROOT_PASSWORD=admin
+        volumes:
+            - mongodb:/data/db
+        networks:
+            - app-network
+volumes:
+    mongodb:
+networks:
+    app-network:
+        driver: bridge
